@@ -46,31 +46,38 @@
   setTheme(getPreferredTheme())
 
   const showActiveTheme = (theme, focus = false) => {
-    const themeSwitcher = document.querySelector('#bd-theme')
+    const themeSwitchers = document.querySelectorAll('.btn-theme')
 
-    if (!themeSwitcher) {
+    if (!themeSwitchers) {
       return
     }
 
     const themeSwitcherText = document.querySelector('#bd-theme-text')
-    const activeThemeIcon = document.querySelector('.theme-icon-active use')
-    const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`)
-    const svgOfActiveBtn = btnToActive.querySelector('svg use').getAttribute('href')
+    const activeThemeIcons = document.querySelectorAll('.theme-icon-active use')
+    const btnsToActive = document.querySelectorAll(`[data-bs-theme-value="${theme}"]`)
+    const svgOfActiveBtn = btnsToActive[0].querySelector('svg use').getAttribute('href')
+    console.log(btnsToActive)
 
     document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
       element.classList.remove('active')
       element.setAttribute('aria-pressed', 'false')
     })
 
-    btnToActive.classList.add('active')
-    btnToActive.setAttribute('aria-pressed', 'true')
-    activeThemeIcon.setAttribute('href', svgOfActiveBtn)
-    const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnToActive.dataset.bsThemeValue})`
-    themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
+    btnsToActive.forEach(btnToActive => {
+      btnToActive.classList.add('active')
+      btnToActive.setAttribute('aria-pressed', 'true')
+    })
+    activeThemeIcons.forEach(activeThemeIcon => {
+      activeThemeIcon.setAttribute('href', svgOfActiveBtn)
+    })
+    const themeSwitcherLabel = `${themeSwitcherText.textContent} (${btnsToActive[0].dataset.bsThemeValue})`
+    themeSwitchers.forEach(themeSwitcher => {
+      themeSwitcher.setAttribute('aria-label', themeSwitcherLabel)
 
-    if (focus) {
-      themeSwitcher.focus()
-    }
+      if (focus) {
+        themeSwitcher.focus()
+      }
+    })
   }
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {

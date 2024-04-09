@@ -29,6 +29,12 @@
         main > div > :last-child > * {
             margin-bottom: 0;
         }
+        .border-subtle {
+            --bs-border-color: var(--bs-border-color-subtle);
+        }
+        [data-bs-theme-value].active svg {
+            display: block !important;
+        }
         @media (max-width: 1023.98px) {
             .z-offcanvas {
                 z-index: 1045;
@@ -58,47 +64,75 @@
             <div class="col-lg-3" aria-label="Global navigation of ODS iOS">
                 <aside class="h-100 border-end border-1 border-light overflow-auto z-offcanvas" style="position: sticky; top: 160px; max-height: calc(100vh - 220px);">
 
-                    <div class="offcanvas-lg offcanvas-end border-0" tabindex="-1" id="offcanvasWrapper" aria-labelledby="offcanvasWrapperLabel" style="--bs-offcanvas-width: 100%;">
-                        <nav class="d-lg-none navbar navbar-expand supra ps-3" data-bs-theme="dark" aria-label="Supra navigation of ODS Flutter">
-                            <ul class="navbar-nav">
-                                <li class="nav-item"><a href="#" class="nav-link">ODS Android</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link">ODS iOS</a></li>
-                                <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">ODS Flutter</a></li>
-                            </ul>
-                        </nav>
-                        <div class="offcanvas-header border-bottom border-1 border-light">
-                            <h5 class="offcanvas-title" id="offcanvasWrapperLabel">ODS Flutter navigation</h5>
+                    <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="offcanvasWrapper" aria-labelledby="offcanvasWrapperLabel" style="--bs-offcanvas-width: 270px;">
+                        <div class="offcanvas-header border-bottom py-1 border-1 border-subtle">
+                            <div class="dropdown d-md-none">      
+                                <button class="btn btn-icon btn-no-outline btn-theme dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle mode (auto)">
+                                    <svg class="theme-icon-active" width="20" height="20"><use href="#ui-auto-mode"></use></svg>
+                                </button>
+                                <ul class="position-absolute dropdown-menu mb-2" aria-labelledby="bd-theme-text">
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                                            <svg class="me-2" width="20" height="20"><use href="#ui-light-mode"></use></svg>
+                                            Light
+                                            <svg class="ms-auto d-none" width="20" height="20"><use href="#check2"></use></svg>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+                                            <svg class="me-2" width="20" height="20"><use href="#ui-dark-mode"></use></svg>
+                                            Dark
+                                            <svg class="ms-auto d-none" width="20" height="20"><use href="#check2"></use></svg>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+                                            <svg class="me-2" width="20" height="20"><use href="#ui-auto-mode"></use></svg>
+                                            Auto
+                                            <svg class="ms-auto d-none" width="20" height="20"><use href="#check2"></use></svg>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
                             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasWrapper" style="margin-right: -.625rem;"><span class="visually-hidden">Close</span></button>
                         </div>
-                        <nav class="offcanvas-body d-flex flex-column pb-4 pb-lg-0 pe-1 gap-4">
-                            {% if site.data.data_menus.toc2[0] %}
-                            {% for item in site.data.data_menus.toc2 %}
-                            <div>
-                                <h3 class="mb-2">{{ item.title }}</h3>
-                                {% if item.subfolderitems[0] %}
-                                <div class="ps-3">
-                                    <ul class="d-flex flex-column gap-2 gap-lg-1 mb-0 list-unstyled">
-                                        {% for entry in item.subfolderitems %}
-                                        {% if entry.page == page.title %}
-                                        <li><a class="text-decoration-none fw-bold" href="{{ site.baseurl }}/{{ entry.url }}">{{ entry.page }}</a>
-                                        {% else %}
-                                        <li><a class="text-decoration-none" href="{{ site.baseurl }}/{{ entry.url }}">{{ entry.page }}</a>
-                                        {% endif %}
-                                            {% if entry.subsubfolderitems[0] %}
-                                            <ul>
-                                                {% for subentry in entry.subsubfolderitems %}
-                                                <li><a href="{{ site.baseurl }}/{{ subentry.url }}">{{ subentry.page }}</a></li>
-                                                {% endfor %}
-                                            </ul>
+                        <nav class="offcanvas-body d-flex flex-column pb-4 pb-lg-0 px-0">
+                            <div class="d-md-none mb-4 px-3 border-bottom border-1 border-subtle">
+                                <ul class="navbar-nav gap-3 mt-2 mb-3">
+                                  <li class="nav-item"><a href="https://orange-opensource.github.io/ods-android/" target="_blank" rel="noopener" class="fw-bold text-decoration-none">ODS Android</a></li>
+                                  <li class="nav-item"><a href="https://orange-opensource.github.io/ods-ios/" target="_blank" rel="noopener" class="fw-bold text-decoration-none">ODS iOS</a></li>
+                                </ul>
+                            </div>
+                            <div class="d-flex flex-column gap-4">
+                                {% if site.data.data_menus.toc2[0] %}
+                                {% for item in site.data.data_menus.toc2 %}
+                                <div class="px-3">
+                                    <h3 class="mb-2">{{ item.title }}</h3>
+                                    {% if item.subfolderitems[0] %}
+                                    <div class="ps-3">
+                                        <ul class="d-flex flex-column gap-2 gap-lg-1 mb-0 list-unstyled">
+                                            {% for entry in item.subfolderitems %}
+                                            {% if entry.page == page.title %}
+                                            <li><a class="text-decoration-none fw-bold" href="{{ site.baseurl }}/{{ entry.url }}">{{ entry.page }}</a>
+                                            {% else %}
+                                            <li><a class="text-decoration-none" href="{{ site.baseurl }}/{{ entry.url }}">{{ entry.page }}</a>
                                             {% endif %}
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
+                                                {% if entry.subsubfolderitems[0] %}
+                                                <ul>
+                                                    {% for subentry in entry.subsubfolderitems %}
+                                                    <li><a href="{{ site.baseurl }}/{{ subentry.url }}">{{ subentry.page }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% endif %}
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
                                 </div>
+                                {% endfor %}
                                 {% endif %}
                             </div>
-                            {% endfor %}
-                            {% endif %}
                         </nav>
                     </div>
                 </aside>
